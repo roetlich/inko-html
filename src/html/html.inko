@@ -1,0 +1,504 @@
+import std::string::ToString
+import html::attribute::Attribute
+
+class pub HtmlStandard {
+    let @element : String
+    let @attributes : Array[Attribute]
+    let @children : Array[Html]
+}
+
+impl ToString for HtmlStandard {
+    fn pub to_string -> String {
+        let atts = @attributes.iter.map fn(a) {a.to_string}
+        let att = atts.reduce("") fn(acc, current) { acc + current }
+        let opening = "<" + @element + att + ">"
+        let children = @children.iter.reduce("") fn(acc, current) {acc + current.to_string()}
+        let closing = "</" + @element + ">"
+
+        return opening + children + closing
+    }
+}
+class pub HtmlSelfClosing {
+    let @element : String
+    let @attributes : Array[Attribute]
+}
+
+impl ToString for HtmlSelfClosing {
+    fn pub to_string -> String {
+        let atts = @attributes.iter.map fn(a) {a.to_string}
+        let att = atts.reduce("") fn(acc, current) { acc + current }
+        return  "<" + @element + att + ">"
+    }
+}
+class pub HtmlRawString {
+    let @content : String
+}
+impl ToString for HtmlRawString {
+    fn pub to_string -> String {
+        return @content
+    }
+}
+class pub enum Html {
+    case Standard (HtmlStandard)
+    case SelfClosing (HtmlSelfClosing)
+    case RawString (HtmlRawString)
+    fn pub static new(element : String, attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.Standard(HtmlStandard {
+            @element = element,
+            @attributes = attributes,
+            @children = children,
+        })
+    }
+
+    fn pub static self_closing(element : String, attributes: Array[Attribute]) -> Html {
+        return Html.SelfClosing(HtmlSelfClosing {
+            @element = element,
+            @attributes = attributes,
+        })
+    }
+    fn pub static raw(content : String) -> Html {
+        return Html.RawString(HtmlRawString {
+            @content = content
+        })
+    }
+    # Normal Html Elements:
+
+    fn pub static a(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("a", attributes, children)
+    }
+
+    fn pub static abbr(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("abbr", attributes, children)
+    }
+
+    fn pub static address(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("address", attributes, children)
+    }
+
+    fn pub static article(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("article", attributes, children)
+    }
+
+    fn pub static aside(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("aside", attributes, children)
+    }
+
+    fn pub static audio(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("audio", attributes, children)
+    }
+
+    fn pub static b(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("b", attributes, children)
+    }
+
+    fn pub static blockquote(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("blockquote", attributes, children)
+    }
+
+    fn pub static body(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("body", attributes, children)
+    }
+
+    fn pub static button(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("button", attributes, children)
+    }
+
+    fn pub static canvas(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("canvas", attributes, children)
+    }
+
+    fn pub static caption(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("caption", attributes, children)
+    }
+
+    fn pub static cite(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("cite", attributes, children)
+    }
+
+    fn pub static code(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("code", attributes, children)
+    }
+
+    fn pub static colgroup(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("colgroup", attributes, children)
+    }
+
+    fn pub static data(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("data", attributes, children)
+    }
+
+    fn pub static datalist(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("datalist", attributes, children)
+    }
+
+    fn pub static dd(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("dd", attributes, children)
+    }
+
+    fn pub static del(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("del", attributes, children)
+    }
+
+    fn pub static details(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("details", attributes, children)
+    }
+
+    fn pub static dfn(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("dfn", attributes, children)
+    }
+
+    fn pub static dialog(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("dialog", attributes, children)
+    }
+
+    fn pub static div(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("div", attributes, children)
+    }
+
+    fn pub static dl(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("dl", attributes, children)
+    }
+
+    fn pub static dt(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("dt", attributes, children)
+    }
+
+    fn pub static em(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("em", attributes, children)
+    }
+
+    fn pub static fieldset(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("fieldset", attributes, children)
+    }
+
+    fn pub static figcaption(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("figcaption", attributes, children)
+    }
+
+    fn pub static figure(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("figure", attributes, children)
+    }
+
+    fn pub static footer(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("footer", attributes, children)
+    }
+
+    fn pub static form(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("form", attributes, children)
+    }
+
+    fn pub static h1(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("h1", attributes, children)
+    }
+
+    fn pub static h2(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("h2", attributes, children)
+    }
+
+    fn pub static h3(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("h3", attributes, children)
+    }
+
+    fn pub static h4(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("h4", attributes, children)
+    }
+
+    fn pub static h5(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("h5", attributes, children)
+    }
+
+    fn pub static h6(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("h6", attributes, children)
+    }
+
+    fn pub static head(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("head", attributes, children)
+    }
+
+    fn pub static header(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("header", attributes, children)
+    }
+
+    fn pub static html(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("html", attributes, children)
+    }
+
+    fn pub static i(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("i", attributes, children)
+    }
+
+    fn pub static iframe(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("iframe", attributes, children)
+    }
+
+    fn pub static ins(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("ins", attributes, children)
+    }
+
+    fn pub static kbd(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("kbd", attributes, children)
+    }
+
+    fn pub static label(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("label", attributes, children)
+    }
+
+    fn pub static legend(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("legend", attributes, children)
+    }
+
+    fn pub static li(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("li", attributes, children)
+    }
+
+    fn pub static main(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("main", attributes, children)
+    }
+
+    fn pub static map(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("map", attributes, children)
+    }
+
+    fn pub static mark(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("mark", attributes, children)
+    }
+
+    fn pub static meter(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("meter", attributes, children)
+    }
+
+    fn pub static nav(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("nav", attributes, children)
+    }
+
+    fn pub static noscript(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("noscript", attributes, children)
+    }
+
+    fn pub static object(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("object", attributes, children)
+    }
+
+    fn pub static ol(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("ol", attributes, children)
+    }
+
+    fn pub static optgroup(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("optgroup", attributes, children)
+    }
+
+    fn pub static option(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("option", attributes, children)
+    }
+
+    fn pub static output(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("output", attributes, children)
+    }
+
+    fn pub static p(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("p", attributes, children)
+    }
+
+    fn pub static picture(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("picture", attributes, children)
+    }
+
+    fn pub static pre(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("pre", attributes, children)
+    }
+
+    fn pub static progress(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("progress", attributes, children)
+    }
+
+    fn pub static q(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("q", attributes, children)
+    }
+
+    fn pub static rp(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("rp", attributes, children)
+    }
+
+    fn pub static rt(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("rt", attributes, children)
+    }
+
+    fn pub static ruby(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("ruby", attributes, children)
+    }
+
+    fn pub static s(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("s", attributes, children)
+    }
+
+    fn pub static samp(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("samp", attributes, children)
+    }
+
+    fn pub static script(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("script", attributes, children)
+    }
+
+    fn pub static section(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("section", attributes, children)
+    }
+
+    fn pub static select(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("select", attributes, children)
+    }
+
+    fn pub static small(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("small", attributes, children)
+    }
+
+    fn pub static span(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("span", attributes, children)
+    }
+
+    fn pub static strong(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("strong", attributes, children)
+    }
+
+    fn pub static style(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("style", attributes, children)
+    }
+
+    fn pub static sub(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("sub", attributes, children)
+    }
+
+    fn pub static summary(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("summary", attributes, children)
+    }
+
+    fn pub static sup(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("sup", attributes, children)
+    }
+
+    fn pub static svg(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("svg", attributes, children)
+    }
+
+    fn pub static table(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("table", attributes, children)
+    }
+
+    fn pub static tbody(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("tbody", attributes, children)
+    }
+
+    fn pub static td(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("td", attributes, children)
+    }
+
+    fn pub static template(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("template", attributes, children)
+    }
+
+    fn pub static textarea(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("textarea", attributes, children)
+    }
+
+    fn pub static tfoot(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("tfoot", attributes, children)
+    }
+
+    fn pub static th(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("th", attributes, children)
+    }
+
+    fn pub static thead(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("thead", attributes, children)
+    }
+
+    fn pub static time(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("time", attributes, children)
+    }
+
+    fn pub static title(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("title", attributes, children)
+    }
+
+    fn pub static tr(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("tr", attributes, children)
+    }
+
+    fn pub static u(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("u", attributes, children)
+    }
+
+    fn pub static ul(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("ul", attributes, children)
+    }
+
+    fn pub static var(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("var", attributes, children)
+    }
+
+    fn pub static video(attributes : Array[Attribute], children : Array[Html]) -> Html {
+        return Html.new("video", attributes, children)
+    }
+
+    # Self closing elements:
+
+    fn pub static area(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("area", attributes)
+    }
+
+    fn pub static base(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("base", attributes)
+    }
+
+    fn pub static br(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("br", attributes)
+    }
+
+    fn pub static col(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("col", attributes)
+    }
+
+    fn pub static embed(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("embed", attributes)
+    }
+
+    fn pub static hr(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("hr", attributes)
+    }
+
+    fn pub static img(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("img", attributes)
+    }
+
+    fn pub static input(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("input", attributes)
+    }
+
+    fn pub static link(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("link", attributes)
+    }
+
+    fn pub static meta(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("meta", attributes)
+    }
+
+    fn pub static source(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("source", attributes)
+    }
+
+    fn pub static track(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("track", attributes)
+    }
+
+    fn pub static wbr(attributes : Array[Attribute]) -> Html {
+        return Html.self_closing("wbr", attributes)
+    }
+}
+impl ToString for Html {
+    fn pub to_string -> String {
+        match self {
+            case Standard (h) -> h.to_string
+            case SelfClosing (h) -> h.to_string
+            case RawString (h) -> h.to_string
+        }
+    }
+}

@@ -1,0 +1,45 @@
+import std::test::Tests
+import html::html
+import html::html::Html
+import html::html::Attribute
+
+fn pub tests(t: mut Tests) {
+    t.test('Boolean attribute') fn (t) {
+        let paragraph = Html.p([Attribute.new_bool("disabled")],[])
+        t.equal(paragraph.to_string,  "<p disabled></p>")
+    }
+    t.test('Nested elements') fn (t) {
+        let inner = Html.raw("Hi there!")
+        let paragraph = Html.p([],[inner])
+        let div = Html.div([], [paragraph])
+        t.equal(div.to_string,  "<div><p>Hi there!</p></div>")
+    }
+    t.test('Raw string') fn (t) {
+        let raw = Html.raw("This is a raw string")
+        t.equal(raw.to_string, "This is a raw string")
+    }
+    t.test('Multiple attributes') fn (t) {
+        let div = Html.div([Attribute.new_bool("disabled"), Attribute.new("class", "container")], [])
+        t.equal(div.to_string, "<div disabled class=\"container\"></div>")
+    }
+    t.test('Deep nesting') fn (t) {
+        let innermost = Html.p([], [Html.raw("Innermost text")])
+        let inner = Html.div([], [innermost])
+        let outer = Html.body([], [inner])
+        t.equal(outer.to_string, "<body><div><p>Innermost text</p></div></body>")
+    }
+    t.test('Self closing element') fn (t) {
+        let br = Html.self_closing("br", [])
+        t.equal(br.to_string, "<br>")
+    }
+    t.test('Script with raw string content') fn (t) {
+        let scriptContent = Html.raw("console.log('Hello, world!');")
+        let script = Html.script([], [scriptContent])
+        t.equal(script.to_string, "<script>console.log('Hello, world!');</script>")
+    }
+    t.test('Cool example') fn (t) {
+        let paragraph = Html.p([],[Html.raw("Let's code in Inko!"), Html.br([]), Html.raw(":)")])
+        let div = Html.div([Attribute.class("welcome text")], [paragraph])
+        t.equal(div.to_string, "<div class=\"welcome text\"><p>Let's code in Inko!<br>:)</p></div>")
+    }
+}

@@ -1,0 +1,62 @@
+import std::string::ToString
+
+
+class pub Attribute {
+    let @name : String
+    let @value : Option[String]
+
+    fn pub static new(name: String, value: String) -> Attribute {
+        return Attribute{@name = name, @value = Option.Some(value)}
+    }
+    fn pub static new_bool(name: String) -> Attribute {
+        return Attribute{@name = name, @value = Option.None}
+    }
+
+    # Commonly used attributes:
+
+    fn pub static class(value: String) -> Attribute {
+        return Attribute.new("class", value)
+    }
+
+    fn pub static id(value: String) -> Attribute {
+        return Attribute.new("id", value)
+    }
+
+    fn pub static src(value: String) -> Attribute {
+        return Attribute.new("src", value)
+    }
+
+    fn pub static href(value: String) -> Attribute {
+        return Attribute.new("href", value)
+    }
+
+    fn pub static alt(value: String) -> Attribute {
+        return Attribute.new("alt", value)
+    }
+
+    fn pub static style(value: String) -> Attribute {
+        return Attribute.new("style", value)
+    }
+
+    fn pub static disabled() -> Attribute {
+        return Attribute.new_bool("disabled")
+    }
+
+    fn pub static readonly() -> Attribute {
+        return Attribute.new_bool("readonly")
+    }
+
+    fn pub static required() -> Attribute {
+        return Attribute.new_bool("required")
+    }
+}
+impl ToString for Attribute {
+    fn pub to_string -> String {
+        let q = "\""
+
+        return match @value {
+            case Some(val) -> " " + @name + "=" + q + val + q
+            case _ -> " " + @name
+        }
+    }
+}
