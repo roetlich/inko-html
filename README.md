@@ -2,6 +2,15 @@
 
 A simple HTML library written Inko. This probably isn't production ready, you caution.
 
+## Installation
+
+Run these command in your inko project directory:
+
+``` sh
+inko pkg add github.com/roetlich/inko-html 0.0.1
+inko pkg sync
+```
+
 ## Usage
 
 First import the `Html` and `Attribute` classes:
